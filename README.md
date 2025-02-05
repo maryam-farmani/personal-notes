@@ -1,4 +1,17 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Personal Notes
+
+Welcome to Personal Notes, a web application that allows you to manage your personal notes with ease. Create, edit, and delete notes, and search through your notes effortlessly.
+
+## Features
+
+- Create new notes
+- Edit existing notes
+- Delete notes with confirmation
+- Search notes by title
+- Responsive design with a mobile-friendly interface
+- Dark mode support
+- & ...
+
 
 ## Getting Started
 
