@@ -22,11 +22,7 @@ const NewNote: React.FC = () => {
 
   return (
     <Container>
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6">New Note</Typography>
-        </Toolbar>
-      </AppBar>
+      <Typography component="h1" variant="h5" sx={{my:2}}>New Note</Typography>
       <NoteForm onSubmit={createNote} />
     </Container>
   );
