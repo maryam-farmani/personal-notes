@@ -91,7 +91,7 @@ const Home: React.FC = () => {
         </script>
       </Head>
       <Box sx={{ mt: 3 }}>
-        <Typography variant="h5" component="h1" sx={{mb:2}}>
+        <Typography variant="h5" component="h1" sx={{ mb: 2 }}>
           Welcome to Personal Notes
         </Typography>
         <TextField
@@ -102,31 +102,38 @@ const Home: React.FC = () => {
           margin="normal"
         />
         <List>
-          {filteredNotes.map(note => (
-            <ListItem key={note.id}>
-              <ListItemText
-                primary={note.title}
-                secondary={
-                  <>
-                    {expandedNoteId === note.id ? note.content : truncateContent(note.content, 10)}
-                    <Button size="small" color="primary" onClick={() => toggleExpand(note.id)}>
-                      {expandedNoteId === note.id ? 'Show Less' : 'Show More'}
-                    </Button>
-                    <br />
-                    <Typography variant="caption" color="textSecondary">
-                      Last modified: {formattedDate(note.lastModified)}
-                    </Typography>
-                  </>
-                }
-              />
-              <IconButton component={Link} href={`/note/${note.id}`} aria-label="edit">
-                <EditIcon />
-              </IconButton>
-              <IconButton onClick={() => handleDelete(note)} aria-label="delete">
-                <DeleteIcon />
-              </IconButton>
-            </ListItem>
-          ))}
+          {filteredNotes.map(note => {
+            const contentWords = note.content.split(' ');
+            const isExpandable = contentWords.length > 10;
+
+            return (
+              <ListItem key={note.id}>
+                <ListItemText
+                  primary={note.title}
+                  secondary={
+                    <>
+                      {expandedNoteId === note.id ? note.content : truncateContent(note.content, 10)}
+                      {isExpandable && (
+                        <Button size="small" color="primary" onClick={() => toggleExpand(note.id)}>
+                          {expandedNoteId === note.id ? 'Show Less' : 'Show More'}
+                        </Button>
+                      )}
+                      <br />
+                      <Typography variant="caption" color="textSecondary">
+                        Last modified: {formattedDate(note.lastModified)}
+                      </Typography>
+                    </>
+                  }
+                />
+                <IconButton component={Link} href={`/note/${note.id}`} aria-label="edit">
+                  <EditIcon />
+                </IconButton>
+                <IconButton onClick={() => handleDelete(note)} aria-label="delete">
+                  <DeleteIcon />
+                </IconButton>
+              </ListItem>
+            );
+          })}
         </List>
       </Box>
       <DeleteConfirmationDialog
