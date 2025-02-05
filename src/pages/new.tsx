@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import NoteForm from '../components/NoteForm';
-import { Container, AppBar, Toolbar, Typography } from '@mui/material';
+import { Container, Typography } from '@mui/material';
 
 const NewNote: React.FC = () => {
   const router = useRouter();

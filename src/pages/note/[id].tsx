@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import NoteForm from '../../components/NoteForm';
-import { Container, AppBar, Toolbar, Typography } from '@mui/material';
+import { Container, Typography } from '@mui/material';
 import { Note } from '@/data/fakeNote';
 
 const NotePage: React.FC = () => {
@@ -38,7 +38,7 @@ const NotePage: React.FC = () => {
 
   return (
     <Container>
-      <Typography component="h1" variant="h6" sx={{my:2}}>Edit Note</Typography>
+      <Typography component="h1" variant="h6" sx={{ my: 2 }}>Edit Note</Typography>
       <NoteForm initialTitle={note.title} initialContent={note.content} onSubmit={updateNote} />
     </Container>
   );
