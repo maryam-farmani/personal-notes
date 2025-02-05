@@ -38,11 +38,7 @@ const NotePage: React.FC = () => {
 
   return (
     <Container>
-      <AppBar position="static">
-        <Toolbar>
-          <Typography component="h1" variant="h6">Edit Note</Typography>
-        </Toolbar>
-      </AppBar>
+      <Typography component="h1" variant="h6" sx={{my:2}}>Edit Note</Typography>
       <NoteForm initialTitle={note.title} initialContent={note.content} onSubmit={updateNote} />
     </Container>
   );
