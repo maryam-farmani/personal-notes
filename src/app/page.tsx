@@ -1,15 +1,19 @@
+"use client";
+
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import { Button, TextField, List, ListItem, ListItemText, Box, Container, Typography, IconButton } from '@mui/material';
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Head from 'next/head';
-import DeleteConfirmationDialog from '../components/DeleteConfirmationDialog';
+import DeleteConfirmationDialog from '@/client-components/DeleteConfirmationDialog';
 import { Note } from '@/data/fakeNote';
 
 const Home: React.FC = () => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+  const router = useRouter();
   const [notes, setNotes] = useState<Note[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [open, setOpen] = useState(false);
@@ -17,10 +21,13 @@ const Home: React.FC = () => {
   const [expandedNoteId, setExpandedNoteId] = useState<string | null>(null);
 
   useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.push('/auth/signin');
+    }
     fetch('/api/notes')
       .then(response => response.json())
       .then(data => setNotes(data));
-  }, []);
+  }, [status, router]);
 
   const truncateContent = (content: string, limit: number) => {
     const words = content.split(' ');
@@ -68,11 +75,11 @@ const Home: React.FC = () => {
   return (
     <Container>
       <Head>
-        <title>Personal Notes</title>
-        <meta name="description" content="Manage your personal notes with ease. Create, edit, and delete notes."></meta>
+        <title>Manage Your Personal Notes with Ease - Personal Notes</title>
+        <meta name="description" content="Manage your personal notes with ease. Create, edit, and delete notes effortlessly with Personal Notes."></meta>
         <meta name="author" content="Maryam Farmani"></meta>
         <meta property="og:title" content="Personal Notes" />
-        <meta property="og:description" content="Manage your personal notes with ease. Create, edit, and delete notes." />
+        <meta property="og:description" content="Manage your personal notes with ease. Create, edit, and delete notes effortlessly with Personal Notes." />
         <meta property="og:image" content="/logo.png" />
         <meta property="og:url" content="http://localhost:3000" />
         <link rel="icon" href="/logo.png" />
@@ -82,7 +89,7 @@ const Home: React.FC = () => {
             "@type": "WebSite",
             "name": "Personal Notes",
             "url": "http://localhost:3000",
-            "description": "Manage your personal notes with ease. Create, edit, and delete notes.",
+            "description": "Manage your personal notes with ease. Create, edit, and delete notes effortlessly with Personal Notes.",
             "author": {
               "@type": "Person",
               "name": "Maryam Farmani"
@@ -125,7 +132,7 @@ const Home: React.FC = () => {
                     </>
                   }
                 />
-                <IconButton component={Link} href={`/note/${note.id}`} aria-label="edit">
+                <IconButton component={Link} href={`/notes/${note.id}/edit`} aria-label="edit">
                   <EditIcon />
                 </IconButton>
                 <IconButton onClick={() => handleDelete(note)} aria-label="delete">

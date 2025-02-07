@@ -1,13 +1,24 @@
+"use client";
+
 import { signIn } from 'next-auth/react';
 import { Button, TextField, Container, Box, Typography } from '@mui/material';
+import { useRouter } from 'next/navigation';
+
 
 const SignIn: React.FC = () => {
-  const handleSubmit = (e: React.FormEvent) => {
+  const router = useRouter();
+  const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
     const username = formData.get('username') as string;
     const password = formData.get('password') as string;
-    signIn('credentials', { username, password });
+    const result = await signIn('credentials', { redirect: false, username, password });
+
+    if (result?.ok) {
+      router.push('/');
+    } else {
+      alert('Invalid credentials');
+    }
   };
 
   return (

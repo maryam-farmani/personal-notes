@@ -23,13 +23,19 @@
       "@/*": [
         "src/*"
       ]
-    }
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
   "include": [
-    "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "src/types/next-auth.d.ts"
+    "next-env.d.ts",
+    "src/types/next-auth.d.ts",
+    ".next/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

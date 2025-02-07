@@ -1,18 +1,18 @@
+"use client";
+
 import React from 'react';
-import { AppBar, Toolbar, Typography, IconButton, Button, Box, Menu, MenuItem, Container } from '@mui/material';
-import { useSession, signIn, signOut } from 'next-auth/react';
-import { useRouter } from 'next/router';
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
+import { AppBar, Toolbar, Typography, Button, IconButton, Container, Box, Menu, MenuItem } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import Link from 'next/link';
-import { useTheme } from '@/context/ThemeContext';
+import { useSession, signOut } from 'next-auth/react';
 import Image from 'next/image';
+import { useTheme } from '@/context/ThemeContext';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
 
 const Header: React.FC = () => {
-  const { toggleTheme, isDarkTheme } = useTheme();
   const { data: session } = useSession();
-  const router = useRouter();
+  const { toggleTheme, isDarkTheme } = useTheme();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -24,11 +24,12 @@ const Header: React.FC = () => {
   };
 
   const handleSignOut = () => {
-    signOut().then(() => router.push('/'));
+    signOut();
   };
 
+
   const handleSignIn = () => {
-    signIn();
+    console.log("object")
   };
 
   return (
@@ -46,7 +47,9 @@ const Header: React.FC = () => {
             {session ? (
               <Button color="inherit" onClick={handleSignOut}>Sign Out</Button>
             ) : (
-              <Button color="inherit" onClick={handleSignIn}>Sign In</Button>
+              <Button color="inherit" component={Link} href="/auth/signin">
+                Sign In
+              </Button>
             )}
             <IconButton onClick={toggleTheme} color="inherit">
               {isDarkTheme ? <Brightness7Icon /> : <Brightness4Icon />}

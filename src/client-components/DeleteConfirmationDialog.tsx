@@ -1,3 +1,4 @@
+"use client";
 import React from 'react';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button, Typography, Divider } from '@mui/material';
 import Box from '@mui/material/Box';

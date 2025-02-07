@@ -1,7 +1,9 @@
+"use client";
+
+import { useRouter } from 'next/navigation';
 import React from 'react';
-import { useRouter } from 'next/router';
-import NoteForm from '../components/NoteForm';
 import { Container, Typography } from '@mui/material';
+import NoteForm from '@/client-components/NoteForm';
 
 const NewNote: React.FC = () => {
   const router = useRouter();
