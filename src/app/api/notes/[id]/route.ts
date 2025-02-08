@@ -1,32 +1,32 @@
 import { revalidateTag } from 'next/cache';
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest, NextResponse } from 'next/server';
 import { fakeNotes } from '@/data/fakeNote';
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const { id } = req.query;
+export async function GET(request: NextRequest) {
+  const { searchParams } = new URL(request.url);
+  const id = searchParams.get('id');
   const note = fakeNotes.find(note => note.id === id);
 
-  switch (req.method) {
-    case 'GET':
-      if (note) {
-        res.status(200).json(note);
-      } else {
-        res.status(404).json({ message: 'Note not found' });
-      }
-      break;
-    case 'PUT':
-      if (note) {
-        const { title, content } = req.body;
-        note.title = title;
-        note.content = content;
-        revalidateTag('notes');
-        res.status(200).json(note);
-      } else {
-        res.status(404).json({ message: 'Note not found' });
-      }
-      break;
-    default:
-      res.setHeader('Allow', ['GET', 'PUT']);
-      res.status(405).end(`Method ${req.method} Not Allowed`);
+  if (note) {
+    return NextResponse.json(note, { status: 200 });
+  } else {
+    return NextResponse.json({ message: 'Note not found' }, { status: 404 });
   }
-};
+}
+
+export async function PUT(request: NextRequest) {
+  const { searchParams } = new URL(request.url);
+  const id = searchParams.get('id');
+  const note = fakeNotes.find(note => note.id === id);
+
+  if (note) {
+    const { title, content } = await request.json();
+    note.title = title;
+    note.content = content;
+    note.lastModified = (new Date()).toISOString();
+    revalidateTag('notes');
+    return NextResponse.json(note, { status: 200 });
+  } else {
+    return NextResponse.json({ message: 'Note not found' }, { status: 404 });
+  }
+}
